@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Interactive maps of Auburn COSAM research collaborations from 2021 through 2025.">
+  <title>COSAM Research Collaborations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #132a3a;
+      --muted: #52636e;
+      --paper: #f7f1e6;
+      --surface: #fffdf7;
+      --orange: #c8511b;
+      --blue: #1e6075;
+      --line: #d8cbb8;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 84% 10%, rgb(200 81 27 / 16%), transparent 30rem),
+        linear-gradient(145deg, var(--paper), #edf2ef);
+      font-family: "DM Sans", sans-serif;
+    }
+    main { width: min(1080px, calc(100% - 2rem)); margin: 0 auto; padding: 5rem 0 3rem; }
+    .eyebrow {
+      margin: 0 0 1rem;
+      color: var(--orange);
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+    h1 {
+      max-width: 780px;
+      margin: 0;
+      font-family: "Fraunces", serif;
+      font-size: clamp(2.7rem, 8vw, 5.8rem);
+      line-height: 0.98;
+      letter-spacing: -0.04em;
+    }
+    .intro { max-width: 720px; margin: 1.5rem 0 0; color: var(--muted); font-size: 1.08rem; line-height: 1.7; }
+    .map-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; margin-top: 3.5rem; }
+    .map-link {
+      position: relative;
+      display: flex;
+      min-height: 280px;
+      padding: 1.6rem;
+      overflow: hidden;
+      color: inherit;
+      text-decoration: none;
+      background: rgb(255 253 247 / 88%);
+      border: 1px solid var(--line);
+      border-radius: 1.1rem;
+      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+    }
+    .map-link:hover, .map-link:focus-visible {
+      transform: translateY(-4px);
+      border-color: var(--orange);
+      box-shadow: 0 1.2rem 2.5rem rgb(19 42 58 / 10%);
+    }
+    .map-link::after {
+      content: "";
+      position: absolute;
+      width: 12rem;
+      height: 12rem;
+      right: -4rem;
+      bottom: -5rem;
+      border: 1.25rem solid rgb(30 96 117 / 12%);
+      border-radius: 50%;
+    }
+    .map-copy { align-self: flex-end; position: relative; z-index: 1; }
+    .map-kicker { color: var(--orange); font-weight: 600; }
+    h2 { margin: 0.45rem 0 0.55rem; font-family: "Fraunces", serif; font-size: clamp(1.8rem, 4vw, 2.8rem); }
+    .map-copy p { max-width: 29rem; margin: 0; color: var(--muted); line-height: 1.55; }
+    .arrow { display: inline-block; margin-top: 1.2rem; color: var(--blue); font-weight: 600; }
+    footer { display: flex; justify-content: space-between; gap: 1rem; margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.88rem; }
+    @media (max-width: 720px) {
+      main { padding-top: 3rem; }
+      .map-grid { grid-template-columns: 1fr; }
+      .map-link { min-height: 240px; }
+      footer { display: block; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="eyebrow">Auburn University · College of Sciences and Mathematics</p>
+    <h1>Research without borders.</h1>
+    <p class="intro">Explore COSAM co-publication connections documented in Web of Science for 2021–2025. The maps count distinct publications associated with partner organizations and are intended as a broad view of collaborative reach.</p>
+
+    <section class="map-grid" aria-label="Collaboration maps">
+      <a class="map-link" href="world.html">
+        <div class="map-copy">
+          <span class="map-kicker">700 publications · 50 countries</span>
+          <h2>International network</h2>
+          <p>Explore publication intensity, citation reach, annual activity, and leading partner organizations around the world.</p>
+          <span class="arrow">Open world map →</span>
+        </div>
+      </a>
+      <a class="map-link" href="us.html">
+        <div class="map-copy">
+          <span class="map-kicker">1,059 publications · 46 states/DC</span>
+          <h2>United States network</h2>
+          <p>Review state-level collaboration intensity and the leading domestic partner organizations for each state.</p>
+          <span class="arrow">Open U.S. map →</span>
+        </div>
+      </a>
+    </section>
+
+    <footer>
+      <span>Source: Web of Science export, 2021–2025</span>
+      <span>Aggregate collaboration data only; Auburn organizations are excluded from partner counts.</span>
+    </footer>
+  </main>
+</body>
+</html>
