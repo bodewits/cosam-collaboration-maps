@@ -1048,10 +1048,14 @@ html&gt;body{padding:0}&lt;/style&gt;
       cursor: pointer;
     }
 
-    #cosam-collaboration-map .country.has-data:hover,
-    #cosam-collaboration-map .country.is-selected {
+    #cosam-collaboration-map .country.has-data:hover {
       stroke: var(--foreground);
-      stroke-width: 1.5;
+      stroke-width: 1.2;
+    }
+
+    #cosam-collaboration-map .country.is-selected {
+      stroke: var(--background);
+      stroke-width: 0.7;
     }
 
     #cosam-collaboration-map .level-1 { --strength: 18%; }
