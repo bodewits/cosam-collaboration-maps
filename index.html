@@ -46,45 +46,44 @@
       letter-spacing: -0.04em;
     }
     .intro { max-width: 720px; margin: 1.5rem 0 0; color: var(--muted); font-size: 1.08rem; line-height: 1.7; }
-    .map-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.25rem; margin-top: 3.5rem; }
-    .map-link {
-      position: relative;
-      display: flex;
-      min-height: 280px;
-      padding: 1.6rem;
+    .viewer {
+      margin-top: 3rem;
       overflow: hidden;
-      color: inherit;
-      text-decoration: none;
-      background: rgb(255 253 247 / 88%);
+      background: rgb(255 253 247 / 90%);
       border: 1px solid var(--line);
       border-radius: 1.1rem;
-      transition: transform 180ms ease, border-color 180ms ease, box-shadow 180ms ease;
+      box-shadow: 0 1.2rem 3rem rgb(19 42 58 / 9%);
     }
-    .map-link:hover, .map-link:focus-visible {
-      transform: translateY(-4px);
-      border-color: var(--orange);
-      box-shadow: 0 1.2rem 2.5rem rgb(19 42 58 / 10%);
+    .viewer-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 1rem 1.15rem;
+      border-bottom: 1px solid var(--line);
     }
-    .map-link::after {
-      content: "";
-      position: absolute;
-      width: 12rem;
-      height: 12rem;
-      right: -4rem;
-      bottom: -5rem;
-      border: 1.25rem solid rgb(30 96 117 / 12%);
-      border-radius: 50%;
+    .viewer-tabs { display: flex; flex-wrap: wrap; gap: 0.55rem; }
+    .viewer-tab {
+      appearance: none;
+      padding: 0.65rem 0.95rem;
+      color: var(--muted);
+      background: transparent;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      font: inherit;
+      font-weight: 600;
+      cursor: pointer;
     }
-    .map-copy { align-self: flex-end; position: relative; z-index: 1; }
-    .map-kicker { color: var(--orange); font-weight: 600; }
-    h2 { margin: 0.45rem 0 0.55rem; font-family: "Fraunces", serif; font-size: clamp(1.8rem, 4vw, 2.8rem); }
-    .map-copy p { max-width: 29rem; margin: 0; color: var(--muted); line-height: 1.55; }
-    .arrow { display: inline-block; margin-top: 1.2rem; color: var(--blue); font-weight: 600; }
+    .viewer-tab:hover, .viewer-tab:focus-visible { border-color: var(--orange); }
+    .viewer-tab[aria-selected="true"] { color: white; background: var(--blue); border-color: var(--blue); }
+    .direct-link { color: var(--blue); font-weight: 600; text-decoration-thickness: 1px; text-underline-offset: 0.2em; }
+    .map-frame { display: block; width: 100%; height: 770px; border: 0; background: white; }
+    .viewer-note { margin: 0; padding: 0.8rem 1.15rem; color: var(--muted); font-size: 0.88rem; border-top: 1px solid var(--line); }
     footer { display: flex; justify-content: space-between; gap: 1rem; margin-top: 2.5rem; padding-top: 1rem; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.88rem; }
     @media (max-width: 720px) {
       main { padding-top: 3rem; }
-      .map-grid { grid-template-columns: 1fr; }
-      .map-link { min-height: 240px; }
+      .viewer-head { align-items: flex-start; flex-direction: column; }
+      .map-frame { height: 690px; }
       footer { display: block; }
     }
   </style>
@@ -95,23 +94,16 @@
     <h1>Research without borders.</h1>
     <p class="intro">Explore COSAM co-publication connections documented in Web of Science for 2021–2025. The temporal counts retain all source records, including contributions by current personnel, students, alumni, and former personnel, and are intended as a broad view of collaborative reach.</p>
 
-    <section class="map-grid" aria-label="Collaboration maps">
-      <a class="map-link" href="world.html">
-        <div class="map-copy">
-          <span class="map-kicker">700 publications · 50 countries</span>
-          <h2>International network</h2>
-          <p>Explore publication intensity, citation reach, annual activity, and leading partner organizations around the world.</p>
-          <span class="arrow">Open world map →</span>
+    <section class="viewer" aria-label="Interactive collaboration map viewer">
+      <div class="viewer-head">
+        <div class="viewer-tabs" role="tablist" aria-label="Choose a collaboration map">
+          <button class="viewer-tab" type="button" role="tab" aria-selected="true" data-map="world.html" data-title="COSAM international collaboration map">International · 50 countries</button>
+          <button class="viewer-tab" type="button" role="tab" aria-selected="false" data-map="us.html" data-title="COSAM United States collaboration map">United States · 46 states/DC</button>
         </div>
-      </a>
-      <a class="map-link" href="us.html">
-        <div class="map-copy">
-          <span class="map-kicker">1,059 publications · 46 states/DC</span>
-          <h2>United States network</h2>
-          <p>Review state-level collaboration intensity and the leading domestic partner organizations for each state.</p>
-          <span class="arrow">Open U.S. map →</span>
-        </div>
-      </a>
+        <a class="direct-link" id="direct-map-link" href="world.html" target="_blank" rel="noopener">Open map in a new page</a>
+      </div>
+      <iframe class="map-frame" id="map-frame" title="COSAM international collaboration map" src="world.html"></iframe>
+      <p class="viewer-note">Select a country or state to inspect publication volume, annual activity, citations, and leading partner organizations.</p>
     </section>
 
     <footer>
@@ -119,5 +111,20 @@
       <span>Aggregate collaboration data only; Auburn organizations are excluded from partner counts.</span>
     </footer>
   </main>
+  <script>
+    const frame = document.getElementById("map-frame");
+    const directLink = document.getElementById("direct-map-link");
+    const tabs = [...document.querySelectorAll(".viewer-tab")];
+
+    for (const tab of tabs) {
+      tab.addEventListener("click", () => {
+        const map = tab.dataset.map;
+        frame.src = map;
+        frame.title = tab.dataset.title;
+        directLink.href = map;
+        for (const item of tabs) item.setAttribute("aria-selected", String(item === tab));
+      });
+    }
+  </script>
 </body>
 </html>

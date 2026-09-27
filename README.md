@@ -4,6 +4,6 @@ Public, interactive maps of Auburn University College of Sciences and Mathematic
 
 - `world.html` shows international collaboration intensity by country.
 - `us.html` shows domestic collaboration intensity by state.
-- `index.html` provides the public landing page.
+- `index.html` provides a tabbed interactive viewer for both maps and is the preferred shareable URL.
 
 The site contains aggregate collaboration data only. It does not include private faculty metrics or review records.
