@@ -1192,8 +1192,8 @@ html&gt;body{padding:0}&lt;/style&gt;
   &lt;/div&gt;
 
   &lt;div class=&quot;selection&quot; aria-live=&quot;polite&quot;&gt;
-    &lt;div class=&quot;selection-title&quot;&gt;&lt;/div&gt;
-    &lt;div class=&quot;selection-meta text-small&quot;&gt;&lt;/div&gt;
+    &lt;div class=&quot;selection-title&quot;&gt;Select a country&lt;/div&gt;
+    &lt;div class=&quot;selection-meta text-small&quot;&gt;Click a shaded country to view publication, citation, partner, and annual activity details.&lt;/div&gt;
   &lt;/div&gt;
 
   &lt;p class=&quot;map-note text-small&quot;&gt;Each publication is counted once per partner country. Temporal counts retain all source records, including contributions by students, alumni, and former personnel; they are not filtered to the current roster. The U.S. is shown as the COSAM origin and excluded from the intensity scale. Institution-country resolution covers 69% of non-Auburn organization mentions in the Web of Science export.&lt;/p&gt;
@@ -1214,7 +1214,7 @@ html&gt;body{padding:0}&lt;/style&gt;
     const byIso = new Map(rows.map(d =&gt; [d.iso3, d]));
     const countries = feature(world, world.objects.features).features;
     const number = d3.format(&quot;,d&quot;);
-    let selectedIso = rows[0].iso3;
+    let selectedIso = null;
     let renderedWidth = 0;
 
     function level(value) {
@@ -1307,7 +1307,7 @@ html&gt;body{padding:0}&lt;/style&gt;
         svg.append(&quot;text&quot;).attr(&quot;class&quot;, &quot;auburn-label&quot;).attr(&quot;x&quot;, auburn[0] + 7).attr(&quot;y&quot;, auburn[1] - 7).text(&quot;Auburn&quot;);
       }
 
-      selectCountry(byIso.get(selectedIso) || rows[0]);
+      if (selectedIso) selectCountry(byIso.get(selectedIso));
     }
 
     const table = document.createElement(&quot;table&quot;);
